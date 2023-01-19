@@ -1,58 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FrontEnd Code Challenge</title>
-  <link rel="stylesheet" href="style.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FrontEnd Code Challenge</title>
+    <link rel="stylesheet" href="style.css" />
 
-  <script>
-    // Handle all API requests in the frontend only
+    <script>
+      // Handle all API requests in the frontend only
 
+      // 1 - GET the courses from CF API
 
-    // 1 - GET the courses from CF API
+      document.addEventListener('DOMContentLoaded', function () {
+        fetch('https://private-e05942-courses22.apiary-mock.com/courses')
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            //map the array to extract title and slug of the courses
+            obj = data.map((el) => [el.title, el.slug]);
+            let text = obj.map((el) => el[0]);
+            let buttonId = obj.map((el) => el[1]);
+            let buttons = document.querySelectorAll('.coursebutton');
+            // get the title and the slug only from the CF API
+            // inject in the button the text from the text array and the id from the button Id array
+            for (let i = 0; i < buttons.length; i++) {
+              buttons[i].innerText = text[i] + ' >';
+              buttons[i].id = buttonId[i];
+            }
+            // console.log(buttons)
+          });
+      });
 
-    document.addEventListener('DOMContentLoaded', function () {
-
-    fetch("https://private-e05942-courses22.apiary-mock.com/courses")
+      // 2 - let the user select which course they are interested in
+      const getPrice = (id) => {
+        // console.log(id);
+        const apiKey = `ACCESS_KEY`;
+        // Retrieve user IP address (via Requester IP Lookup Method, see ipstack documentation)
+        return fetch(`http://api.ipstack.com/check?access_key=${apiKey}`)
       .then((response) => {
         return response.json()
       }).then((data) => {
+        //and use it check through ipstack API if the current user is located in a country member of the EU
+        return fetch(`http://api.ipstack.com/${data.ip}/?access_key=${apiKey}&fields=location.is_eu`)
+      }).then((response) => {
+        return response.json()
+      }).then((data) => {
+        console.log(data.location.is_eu)
+        let userInEu = data.location.is_eu
+      })}
+      
+      // 3 - Based on the user's selection, GET the course details from our own API:
 
-    //map the array to extract title and slug of the courses
-        obj = data.map((el) => [el.title, el.slug])
-        let text = obj.map((el) => el[0]);
-        let buttonId = obj.map((el) => el[1]);
-        let buttons = document.querySelectorAll('.coursebutton');
-    // get the title and the slug only from the CF API
-    // inject in the button the text from the text array and the id from the button Id array
-        for (let i = 0; i < buttons.length; i++) {
-          buttons[i].innerText = text[i] + ' >';
-          buttons[i].id = buttonId[i];
-        }
-        console.log(buttons)
-      })
-    });
+      // 4 - Display the total price in the correct currency based on the user's geolocation
 
-    // 2 - let the user select which course they are interested in
- 
-    // 3 - Based on the user's selection, GET the course details from our own API:
+      // 5 - Display the next course start date and the following two start dates separately in the frontend 
+    </script>
 
-    // 4 - Display the total price in the correct currency based on the user's geolocation
-
-    // 5 - Display the next course start date and the following two start dates separately in the frontend
-    
-  const getPrice = (id) => {
-  console.log(id);
-
-
-  document.getElementById("firstDate").innerText=id
-  document.getElementById("nextDates").innerText=id
-}
-  </script>
-
-  <!-- In your application code, GET the courses CareerFoundry offers from our own API:
+    <!-- In your application code, GET the courses CareerFoundry offers from our own API:
 https://private-e05942-courses22.apiary-mock.com/courses
 ➔ On the frontend, let the user select which course they are interested in
 ➔ Based on the user's selection, GET the course details from our own API:
@@ -64,32 +70,34 @@ use USD for any country outside the EU)
 to!) use https://ipstack.com
 ➔ Display the next course start date and the following two start dates separately in
 the frontend -->
-</head>
-<body>
-  <nav class="mainNavBar">
-    <img
-      class="maintitle"
-      alt="CareerFoundry"
-      src="https://images.careerfoundry.com/public/logo/cf_logo_min_full.svg"
-      loading="lazy"
-    />
-  </nav>
-  <div class="mainContent">
-    <div class="courses">
-      <h2>CHOOSE YOUR COURSE</h2>
-      <button onclick="getPrice(this.id)" class="coursebutton" type="button">
-        Button1
-      </button>
-      <button onclick="getPrice(this.id)" class="coursebutton" type="button">
-        Button2
-      </button>
+
+  
+  </head>
+  <body>
+    <nav class="mainNavBar">
+      <img
+        class="maintitle"
+        alt="CareerFoundry"
+        src="https://images.careerfoundry.com/public/logo/cf_logo_min_full.svg"
+        loading="lazy"
+      />
+    </nav>
+    <div class="mainContent">
+      <div class="courses">
+        <h2>CHOOSE YOUR COURSE</h2>
+        <button onclick="getPrice(this.id)" class="coursebutton" type="button">
+          Button1
+        </button>
+        <button onclick="getPrice(this.id)" class="coursebutton" type="button">
+          Button2
+        </button>
+      </div>
+
+      <div class="courses">
+        <h2 id="price">Price</h2>
+        <h3>Earlier starting date: <span id="firstDate"></span></h3>
+        <h3>Following starting dates: <span id="nextDates"></span></h3>
+      </div>
     </div>
-   
-    <div class="courses">
-      <h2>Price</h2>  
-      <h3>Earlier starting date: <span id="firstDate"></span></h3>
-      <h3>Following starting dates: <span id="nextDates"></span></h3>
-    </div>
-  </div>
-</body>
+  </body>
 </html>
