@@ -1,7 +1,7 @@
 ## challengeFront
 #Notes about the challenge
 - I usually store the API key on a gitignore file.
-Kinldy add your API KEY line 39 of the index.html file at the top of the script file line to make the API call.
+Kinldy add your API KEY line 37 of the index.html file at the top of the script file line to make the API call.
 - JavaScript file is generally not embedded in index.html.
 I understood it was requested to show all the logic on one page.
 I generally locate it in a js file and call it from the index.html page through a script tag.
