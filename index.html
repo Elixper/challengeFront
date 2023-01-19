@@ -12,11 +12,44 @@
 
 
     // 1 - GET the courses from CF API
-    // 2 - let the user select which course they are interested in
-    // 3 - Based on the user's selection, GET the course details from our own API:
-    // 4 - Display the total price in the correct currency based on the user's geolocation
-    // 5 - Display the next course start date and the following two start dates separately in the frontend
 
+    document.addEventListener('DOMContentLoaded', function () {
+
+    fetch("https://private-e05942-courses22.apiary-mock.com/courses")
+      .then((response) => {
+        return response.json()
+      }).then((data) => {
+
+    //map the array to extract title and slug of the courses
+        obj = data.map((el) => [el.title, el.slug])
+        let text = obj.map((el) => el[0]);
+        let buttonId = obj.map((el) => el[1]);
+        let buttons = document.querySelectorAll('.coursebutton');
+    // get the title and the slug only from the CF API
+    // inject in the button the text from the text array and the id from the button Id array
+        for (let i = 0; i < buttons.length; i++) {
+          buttons[i].innerText = text[i] + ' >';
+          buttons[i].id = buttonId[i];
+        }
+        console.log(buttons)
+      })
+    });
+
+    // 2 - let the user select which course they are interested in
+ 
+    // 3 - Based on the user's selection, GET the course details from our own API:
+
+    // 4 - Display the total price in the correct currency based on the user's geolocation
+
+    // 5 - Display the next course start date and the following two start dates separately in the frontend
+    
+  const getPrice = (id) => {
+  console.log(id);
+
+
+  document.getElementById("firstDate").innerText=id
+  document.getElementById("nextDates").innerText=id
+}
   </script>
 
   <!-- In your application code, GET the courses CareerFoundry offers from our own API:
@@ -44,10 +77,10 @@ the frontend -->
   <div class="mainContent">
     <div class="courses">
       <h2>CHOOSE YOUR COURSE</h2>
-      <button class="coursebutton" type="button">
+      <button onclick="getPrice(this.id)" class="coursebutton" type="button">
         Button1
       </button>
-      <button class="coursebutton" type="button">
+      <button onclick="getPrice(this.id)" class="coursebutton" type="button">
         Button2
       </button>
     </div>
