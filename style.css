@@ -4,14 +4,48 @@
   --red: #fa6357;
   --lightred: #ff6c6c;
   --green: #1c7488;
-  --lightgreen: #96DDE7;
+  --lightgreen: #96dde7;
 }
 
-body { 
+body {
   background-color: var(--blue);
- }
+}
 
- .maintitle {
+html {
+  -webkit-text-size-adjust: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.mainContent {
+  display:flex
+}
+
+.courses{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0px 50px;
+}
+
+h1, h2  {
+  color: var(--white);
+  font-size: 16px;
+}
+
+h3 {
+  color: var(--white);
+  font-size: 12px;
+}
+
+nav {
+  display: flex;
+  background-color: var(--blue);
+  height: 100px;
+}
+
+.maintitle {
   display: flex;
   position: absolute;
   left: 20px;
