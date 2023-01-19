@@ -1,0 +1,21 @@
+:root {
+  --blue: #223d50;
+  --white: #fff;
+  --red: #fa6357;
+  --lightred: #ff6c6c;
+  --green: #1c7488;
+  --lightgreen: #96DDE7;
+}
+
+body { 
+  background-color: var(--blue);
+ }
+
+ .maintitle {
+  display: flex;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  height: 23px;
+  width: 191px;
+}
